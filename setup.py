@@ -26,18 +26,23 @@ commands_1 = [
     "sudo apt-get purge -y libreoffice*",
     "sudo apt-get -y clean",
     "sudo apt-get -y autoremove",
-    "sudo pip3 install -U pip",
-    "sudo apt-get install -y python-dev python-pip libfreetype6-dev libjpeg-dev build-essential",
+    "sudo apt-get install -y python3-dev python3-pip libfreetype6-dev libjpeg-dev build-essential",
     "sudo apt-get install -y i2c-tools",
-    "sudo -H pip3 install --upgrade luma.oled",
-    "sudo pip3 install adafruit-pca9685",
-    "sudo pip3 install rpi_ws281x",
     "sudo apt-get install -y python3-smbus",
+    "sudo pip3 install -U pip",
+    "sudo -H pip3 install --upgrade luma.oled",
+    "sudo pip3 install adafruit-circuitpython-pca9685",
+    "sudo pip3 install rpi_ws281x",
     "sudo pip3 install mpu6050-raspberrypi",
     "sudo pip3 install flask",
     "sudo pip3 install flask_cors",
     "sudo pip3 install websockets",
+    "echo \"deb http://security.ubuntu.com/ubuntu xenial-security main\" | sudo tee /etc/apt/sources.list.d/xenial.list",
+    "sudo apt-get update",
     "sudo apt-get install -y libjasper-dev",
+    "sudo apt_get install -y libjasper1",
+    "sudo rm /etc/apt/sources.list.d/xenial.list",
+    "sudo apt-get update",
     "sudo apt-get install -y libatlas-base-dev",
     "sudo apt-get install -y libgstreamer1.0-0"
 ]
@@ -53,13 +58,20 @@ for x in range(3):
 
 
 commands_2 = [
-    "sudo pip3 install RPi.GPIO",
+    "sudo add-apt=repository ppa:rock-core/qt4",
+    "sudo apt-get update",
     "sudo apt-get -y install libqtgui4 libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev libqt4-test",
-    "sudo pip3 install -r server/requirements.txt",
-    "sudo git clone https://github.com/oblique/create_ap",
-    "cd " + thisPath + "/create_ap && sudo make install",
-    "cd //home/pi/create_ap && sudo make install",
+    #"sudo add-apt-repository --remove ppa:rock-core/qt4"
     "sudo apt-get install -y util-linux procps hostapd iproute2 iw haveged dnsmasq"
+    "sudo pip3 install RPi.GPIO",
+    "sudo pip3 install numpy",
+    "sudo pip3 opencv-contrib-python",
+    "sudo pip3 imutils",
+    "sudo pip3 install imutils zmq pybase64 psutil"
+    "sudo git clone https://github.com/oblique/create_ap",
+    "cd " + thisPath + "/create_ap && sudo make install"
+    #"cd //home/pi/create_ap && sudo make install",
+
 ]
 
 mark_2 = 0
@@ -99,7 +111,7 @@ try:
     with open("//home/pi/startup.sh",'w') as file_to_write:
         #you can choose how to control the robot
         file_to_write.write("#!/bin/sh\nsudo python3 " + thisPath + "/server/webServer.py")
-#       file_to_write.write("#!/bin/sh\nsudo python3 " + thisPath + "/server/server.py")
+        #file_to_write.write("#!/bin/sh\nsudo python3 " + thisPath + "/server/server.py")
 except:
     pass
 
@@ -115,7 +127,7 @@ try: #fix conflict with onboard Raspberry Pi audio
 except:
     pass
 
-os.system("sudo cp -f //home/pi/adeept_rasptank/server/config.txt //etc/config.txt")
+os.system("sudo cp -f " + thisPath + "/server/config.txt //etc/config.txt")
 
 print('The program in Raspberry Pi has been installed, disconnected and restarted. \nYou can now power off the Raspberry Pi to install the camera and driver board (Robot HAT). \nAfter turning on again, the Raspberry Pi will automatically run the program to set the servos port signal to turn the servos to the middle position, which is convenient for mechanical assembly.')
 print('restarting...')
